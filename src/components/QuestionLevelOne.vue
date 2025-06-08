@@ -6,12 +6,12 @@
             <p>TERIMA KASIH SUDAH MENJAWAB SEMUA PERTANYAAN! AKU SEDANG MENGANALISIS...</p>
         </div>
   
-        <div v-else-if="questionText" class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
-            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
+        <div v-else-if="questionText && options.length > 0" class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center font-cinzel" style="color: #63739A">
                 LEVEL 1 - DUNIA MINAT
             </h2>
     
-            <p class="text-lg text-gray-700 mb-8 text-center">{{ questionText }}</p>
+            <p class="text-lg text-gray-500 mb-8 text-center">{{ questionText }}</p>
     
             <div class="space-y-4">
                 <button
@@ -19,8 +19,8 @@
                     :key="index"
                     @click="selectOption(option.value)"
                     :class="{
-                    'bg-blue-100 border-blue-500 text-blue-800': selectedAnswer === option.value,
-                    'bg-gray-50 border-gray-300 text-gray-700 hover:bg-blue-50 hover:border-blue-400': selectedAnswer !== option.value,
+                        'bg-blue-100 border-blue-500 text-blue-800': selectedAnswer === option.value,
+                        'bg-gray-50 border-gray-300 text-gray-700 hover:bg-blue-50 hover:border-blue-400': selectedAnswer !== option.value,
                     }"
                     class="block w-full text-left py-4 px-6 border rounded-lg font-medium shadow-sm transition duration-200 ease-in-out transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 >
@@ -63,7 +63,8 @@ export default {
             questionText: '', 
             options: [],
             selectedAnswer: null,
-            loading: false, 
+            loading: false,
+            savedAnswers: {}, // Store answers for each question
         };
     },
     watch: {
@@ -87,31 +88,34 @@ export default {
                         },
                     }
                 );
-                // Correctly assign question text and options
+                console.log('Response data:', response.data); 
+                
                 this.questionText = response.data.question;
-                // The backend `options` object contains option_a, option_b, etc.
-                // We need to map them to the format expected by the frontend's v-for loop
-                this.options = [
-                    { text: response.data.options.option_a, value: 'A' },
-                    { text: response.data.options.option_b, value: 'B' },
-                    { text: response.data.options.option_c, value: 'C' },
-                    { text: response.data.options.option_d, value: 'D' },
-                    { text: response.data.options.option_e, value: 'E' },
-                ];
-                this.selectedAnswer = null; // Reset selected answer when a new question is loaded
+                
+                this.options = Object.entries(response.data.options).map(([key, value]) => ({
+                    text: value, 
+                    value: key  
+                }));
+
+                console.log('Processed options:', this.options); 
+                
+                // Set the selected answer from saved answers if it exists
+                this.selectedAnswer = this.savedAnswers[`${this.currentLevel}_${this.currentQuestionNumber}`] || null;
             } catch (error) {
                 console.error('Error fetching question:', error);
-                this.questionText = ''; // Clear question text on error
-                this.options = [];    // Clear options on error
-                alert('Gagal memuat pertanyaan. Silakan coba lagi.'); // User-friendly error message
+                this.questionText = '';
+                this.options = [];   
+                alert('Gagal memuat pertanyaan. Silakan coba lagi.'); 
             }
         },
         selectOption(optionValue) {
             this.selectedAnswer = optionValue;
+            // Save the answer when selected
+            this.savedAnswers[`${this.currentLevel}_${this.currentQuestionNumber}`] = optionValue;
         },
         prevQuestion() {
             if (this.currentQuestionNumber > 1) {
-                this.$router.push(`/game/question-level-one/${this.currentQuestionNumber - 1}`);
+                this.$router.push(`/question-level-one/${this.currentQuestionNumber - 1}`);
             }
         },
         async nextQuestion() {
@@ -136,17 +140,15 @@ export default {
                     }
                 );
         
+                console.log('Submit answer response:', response.data); 
+        
                 if (response.data.next_level && response.data.next_question) {
-                    // Lanjut ke level berikutnya jika sudah selesai 12 pertanyaan
                     if (response.data.next_level > this.currentLevel) {
-                        this.$router.push(`/game/question-level-two/${response.data.next_question}`);
+                        this.$router.push(`/question-level-two/${response.data.next_question}`);
                     } else {
-                        // Lanjut ke pertanyaan berikutnya di level yang sama
-                        this.$router.push(`/game/question-level-one/${response.data.next_question}`);
+                        this.$router.push(`/question-level-one/${response.data.next_question}`);
                     }
                 } else if (response.data.personality_type && response.data.recommended_majors) {
-                    // Ini seharusnya tidak terjadi di Level 1 karena ada Level 2 dan 3
-                    // Namun, ini untuk penanganan jika backend langsung mengembalikan hasil
                     this.loading = true;
                     setTimeout(() => {
                         this.$router.push('/result');
@@ -163,5 +165,8 @@ export default {
   
 <style scoped>
 /* Tailwind CSS digunakan, jadi custom style minimal */
+.font-cinzel {
+    font-family: 'Cinzel Decorative', cursive;
+}
 </style>
   
