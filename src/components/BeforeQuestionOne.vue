@@ -1,0 +1,46 @@
+<template>
+  <div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-200 via-indigo-100 to-purple-100 p-2 sm:p-4 text-center font-cinzel">
+        <div class="bg-white rounded-2xl shadow-xl px-3 sm:px-6 md:px-12 py-6 sm:py-8 md:py-12 w-[95%] sm:w-[90%] md:w-full max-w-3xl flex flex-col items-center">
+            <!-- Judul -->
+            <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold mb-4 sm:mb-5 md:mb-6 drop-shadow-md" style="color: #63739A; line-height: 1.4;">
+                Kamu Harus Menjawab 12 Pertanyaan
+            </h3>
+
+            <!-- Tombol mulai -->
+            <button
+            @click="startQuestion"
+            class="text-white font-bold py-2.5 sm:py-3 md:py-4 px-6 sm:px-8 md:px-10 rounded-full text-lg sm:text-xl md:text-2xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-opacity-75 w-[90%] sm:w-[80%] md:w-auto"
+            style="background-color: #A27AED"
+            >
+                MULAI
+            </button>
+        </div>
+  </div>
+</template>
+
+<script>
+export default {
+    name: 'BeforeQuestionOne',
+    methods: {
+        startQuestion() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // If no token, redirect to login
+                this.$router.push('/');
+                return;
+            }
+            // Navigate to first question
+            this.$router.push('/question-level-one/1');
+        },
+    },
+};
+</script>
+
+<!-- Tambahkan import font di style -->
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
+
+.font-cinzel {
+    font-family: 'Cinzel Decorative', cursive;
+}
+</style>
