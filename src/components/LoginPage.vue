@@ -73,18 +73,15 @@ export default {
         };
     },
     methods: {
-        // Fungsi untuk proses login
         async login() {
             try {
                 const response = await axios.post('http://localhost:8000/api/login', {
                     email: this.email,
                     password: this.password,
                 });
-                // Simpan token ke localStorage dengan nama yang konsisten
                 localStorage.setItem('token', response.data.token);
                 this.message = 'Login berhasil!';
                 this.messageType = 'success';
-                // Redirect ke halaman home setelah login
                 this.$router.push('/home');
             } catch (error) {
                 this.message = 'Login gagal. Periksa kembali email dan password Anda.';
@@ -97,6 +94,5 @@ export default {
 </script>
 
 <style scoped>
-/* Tailwind CSS digunakan, jadi custom style minimal */
-/* Anda bisa menambahkan gaya kustom di sini jika diperlukan, atau langsung menggunakan Tailwind */
+
 </style>

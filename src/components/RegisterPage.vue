@@ -95,10 +95,11 @@ export default {
                     email: this.email,
                     password: this.password,
                 });
+                
                 this.message = 'Registrasi berhasil! Silakan login.';
                 this.messageType = 'success';
                 console.log('Register success:', response.data);
-                // Arahkan ke login page
+
                 setTimeout(() => {
                     this.$router.push('/');
                 }, 1500);

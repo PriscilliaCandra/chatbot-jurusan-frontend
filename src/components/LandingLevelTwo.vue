@@ -7,13 +7,13 @@
         class="text-white font-[CinzelDecorative] leading-relaxed"
         style="font-size: 3rem; font-weight: 700; margin-bottom: 20px;"
       >
-        LEVEL 1
+        LEVEL 2
       </h1>
       <h1
         class="text-white font-[CinzelDecorative] leading-relaxed"
         style="font-size: 3rem; font-weight: 700;"
       >
-        DUNIA MINAT
+        DUNIA BAKAT
       </h1>
     </div>
 
@@ -28,17 +28,17 @@
 
 <script>
 export default {
-    name: 'LandingLevelOne',
+    name: 'LandingLevelTwo',
     computed: {
         backgroundStyle() {
             return {
-                backgroundImage: `url(${require('@/assets/img/landing1.png')})`,
+                backgroundImage: `url(${require('@/assets/img/landing2.png')})`,
             };
         },
     },
     methods: {
         nextPage() {
-            this.$router.push('/level-one-intro');
+            this.$router.push('/level-two-intro');
         },
     },
 };

@@ -14,7 +14,7 @@
 
         <div v-else-if="questionText && options.length > 0" class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
             <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center font-cinzel" style="color: #63739A">
-                LEVEL 1 - DUNIA MINAT
+                LEVEL 2 - DUNIA BAKAT
             </h2>
     
             <p class="text-lg text-gray-500 mb-8 text-center">{{ questionText }}</p>
@@ -61,7 +61,7 @@
 import axios from 'axios';
   
 export default {
-    name: 'QuestionLevelOne',
+    name: 'QuestionLevelTwo',
     data() {
         return {
             currentLevel: 1, 
@@ -128,7 +128,7 @@ export default {
         },
         prevQuestion() {
             if (this.currentQuestionNumber > 1) {
-                this.$router.push(`/question-level-one/${this.currentQuestionNumber - 1}`);
+                this.$router.push(`/question-level-two/${this.currentQuestionNumber - 1}`);
             }
         },
         async nextQuestion() {
@@ -157,9 +157,9 @@ export default {
         
                 if (response.data.next_level && response.data.next_question) {
                     if (response.data.next_level > this.currentLevel) {
-                        this.$router.push('/landing-level-two');
+                        this.$router.push('/landing-level-three');
                     } else {
-                        this.$router.push(`/question-level-one/${response.data.next_question}`);
+                        this.$router.push(`/question-level-two/${response.data.next_question}`);
                     }
                 } else if (response.data.personality_type && response.data.recommended_majors) {
                     this.loading = true;

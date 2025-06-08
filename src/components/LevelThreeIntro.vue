@@ -3,7 +3,7 @@
         <div class="absolute left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 px-3 sm:px-5 md:px-8 py-4 sm:py-5 md:py-6 rounded-3xl max-w-3xl text-center mx-3 sm:mx-4"
             style="top: 3rem; width: calc(100% - 1.5rem);">
             <p class="text-white font-[CinzelDecorative] text-sm sm:text-base md:text-lg leading-relaxed" style="line-height: 2;">
-                Kamu tiba di Pulau Arvena, tempat berbagai suku minat tinggal. Untuk lanjut, kamu harus memilih jalan hidup berdasarkan naluri dan ketertarikanmu.
+                Di level terakhir, kamu masuk ke Cermin Shavira — tempat jiwa diuji. Di sini bukan hanya pilihan, tapi siapa kamu yang menentukan.
             </p>
         </div>
         <button
@@ -17,17 +17,17 @@
 
 <script>
 export default {
-    name: 'LevelOneIntro',
+    name: 'LevelThreeIntro',
     computed: {
         backgroundStyle() {
             return {
-                backgroundImage: `url(${require('@/assets/img/level1.png')})`,
+                backgroundImage: `url(${require('@/assets/img/level3.png')})`,
             };
         },
     },
     methods: {
         nextPage() {
-            this.$router.push('/before-question-one');
+            this.$router.push('/before-question-three');
         },
     },
 };

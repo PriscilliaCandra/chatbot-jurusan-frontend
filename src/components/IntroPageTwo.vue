@@ -1,6 +1,5 @@
 <template>
     <div class="relative min-h-screen bg-cover bg-center" :style="backgroundStyle">
-        <!-- Overlay hitam dengan teks -->
         <div
         class="absolute left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 px-3 sm:px-5 md:px-8 py-4 sm:py-5 md:py-6 rounded-3xl max-w-3xl text-center mx-3 sm:mx-4"
         style="top: 3rem; width: calc(100% - 1.5rem);"
