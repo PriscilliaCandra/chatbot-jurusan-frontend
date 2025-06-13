@@ -18,6 +18,7 @@ import LevelThreeIntro from '@/components/LevelThreeIntro.vue';
 import BeforeQuestionThree from '@/components/BeforeQuestionThree.vue';
 import QuestionLevelThree from '@/components/QuestionLevelThree.vue';
 import ResultPage from '@/components/ResultPage.vue';
+import ChatbotPage from '@/components/ChatbotPage.vue';
 
 Vue.use(VueRouter);
 
@@ -40,6 +41,7 @@ const routes = [
     { path: '/before-question-three', component: BeforeQuestionThree },
     { path: '/question-level-three/:questionNumber', component: QuestionLevelThree },
     { path: '/result', component: ResultPage },
+    { path: '/chatbot', component: ChatbotPage },
     { path: '*', redirect: '/' },
 ];
 

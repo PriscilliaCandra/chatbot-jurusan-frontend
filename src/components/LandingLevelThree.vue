@@ -32,7 +32,7 @@ export default {
     computed: {
         backgroundStyle() {
             return {
-                backgroundImage: `url(${require('@/assets/img/landing3.png')})`,
+                backgroundImage: `url(${require('@/assets/img/landing3.jpg')})`,
             };
         },
     },

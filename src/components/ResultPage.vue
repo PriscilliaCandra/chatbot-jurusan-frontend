@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
         <div v-if="loading" class="text-center">
             <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-            <p class="mt-4 text-xl text-gray-600">Memuat hasil...</p>
+            <p class="mt-4 font-cinzel text-xl text-gray-600">Memuat hasil...</p>
         </div>
 
         <div v-else-if="error" class="text-center">
@@ -43,11 +43,11 @@
             <div class="mt-12 text-center space-x-4">
                 <button @click="restartTest" 
                         class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition duration-200">
-                    Mulai Tes Ulang
+                    Tes Ulang
                 </button>
-                <button @click="goToHome" 
+                <button @click="goToChat" 
                         class="bg-gray-600 text-white px-8 py-3 rounded-full hover:bg-gray-700 transition duration-200">
-                    Kembali ke Beranda
+                    Menuju Chatbot
                 </button>
             </div>
         </div>
@@ -92,10 +92,10 @@ export default {
             }
         },
         restartTest() {
-            this.$router.push('/landing-level-one');
-        },
-        goToHome() {
             this.$router.push('/home');
+        },
+        goToChat() {
+            this.$router.push('/chatbot');
         }
     }
 };
@@ -105,4 +105,5 @@ export default {
 .font-cinzel {
     font-family: 'Cinzel Decorative', cursive;
 }
+
 </style> 

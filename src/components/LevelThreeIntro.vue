@@ -21,7 +21,7 @@ export default {
     computed: {
         backgroundStyle() {
             return {
-                backgroundImage: `url(${require('@/assets/img/level3.png')})`,
+                backgroundImage: `url(${require('@/assets/img/level3.avif')})`,
             };
         },
     },
