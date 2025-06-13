@@ -2,7 +2,7 @@
     <div class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
         <div v-if="loading" class="text-center text-gray-700 text-2xl font-semibold">
             <img src="https://placehold.co/150x150/E0F7FA/000000?text=LOADING" alt="Loading" class="mx-auto mb-4 rounded-full shadow-md animate-pulse" />
-            <p>Memuat pertanyaan...</p>
+            <p class="font-bold text-gray-800 mb-6 text-center font-cinzel" style="color: #63739A">Memuat pertanyaan...</p>
         </div>
   
         <div v-else-if="error" class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl text-center">
@@ -64,7 +64,7 @@ export default {
     name: 'QuestionLevelThree',
     data() {
         return {
-            currentLevel: 1, 
+            currentLevel: 3, 
             currentQuestionNumber: 1,
             questionText: '', 
             options: [],
@@ -154,6 +154,8 @@ export default {
                 );
         
                 console.log('Submit answer response:', response.data); 
+                console.log('Current Level:', this.currentLevel);
+                console.log('Current Question Number:', this.currentQuestionNumber);
         
                 if (response.data.next_level && response.data.next_question) {
                     if (response.data.next_level > this.currentLevel) {
