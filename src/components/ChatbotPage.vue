@@ -8,6 +8,21 @@
                 </button>
             </div>
 
+            <!-- Daftar Pertanyaan yang Tersedia -->
+            <div v-if="availableQuestions.length > 0" class="p-4 bg-gray-50 border-b">
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Pertanyaan yang Tersedia:</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button 
+                        v-for="question in availableQuestions" 
+                        :key="question.id"
+                        @click="useSuggestedQuestion(question.questions)"
+                        class="text-xs bg-white border border-gray-200 hover:border-blue-500 hover:text-blue-600 px-3 py-1.5 rounded-full transition-all shadow-sm"
+                    >
+                        {{ question.questions }}
+                    </button>
+                </div>
+            </div>
+
             <div class="flex-1 p-6 overflow-y-auto space-y-4" ref="chatMessages">
                 <div v-for="(msg, index) in chatHistory" :key="index"
                     :class="{
@@ -56,23 +71,24 @@
 import axios from 'axios';
 
 export default {
-  name: 'ChatbotPage',
-  data() {
+    name: 'ChatbotPage',
+    data() {
         return {
-            chatHistory: [], 
-            newMessage: '', 
+            chatHistory: [],
+            newMessage: '',
             isTyping: false,
+            availableQuestions: [] // Menyimpan daftar pertanyaan yang tersedia
         };
     },
-  methods: {
+    methods: {
         async sendMessage() {
             if (!this.newMessage.trim()) return;
 
             const userMessage = this.newMessage;
             this.chatHistory.push({ sender: 'user', message: userMessage });
-            this.newMessage = ''; 
-            this.scrollToBottom(); 
-            this.isTyping = true; 
+            this.newMessage = '';
+            this.scrollToBottom();
+            this.isTyping = true;
 
             try {
                 const token = localStorage.getItem('token');
@@ -81,7 +97,7 @@ export default {
                 }
 
                 const response = await axios.post(
-                    'http://localhost:8000/api/ask',
+                    'http://localhost:8000/api/chatbot/ask',
                     { 
                         message: userMessage
                     },
@@ -92,8 +108,14 @@ export default {
                         },
                     }
                 );
+
                 const botReply = response.data.reply;
                 this.chatHistory.push({ sender: 'bot', message: botReply });
+
+                // Jika user belum melakukan tes kepribadian
+                if (response.data.needs_personality_test) {
+                    this.$router.push('/personality-test');
+                }
             } 
             catch (error) {
                 console.error('Error sending message to chatbot:', error);
@@ -108,10 +130,16 @@ export default {
                 this.chatHistory.push({ sender: 'bot', message: errorMessage });
             } 
             finally {
-                this.isTyping = false; 
-                this.scrollToBottom(); 
+                this.isTyping = false;
+                this.scrollToBottom();
             }
         },
+
+        useSuggestedQuestion(question) {
+            this.newMessage = question;
+            this.sendMessage();
+        },
+
         scrollToBottom() {
             this.$nextTick(() => {
                 const chatMessages = this.$refs.chatMessages;
@@ -120,13 +148,39 @@ export default {
                 }
             });
         },
+
         clearChat() {
-            this.chatHistory = []; 
+            this.chatHistory = [];
         },
+
+        async loadAvailableQuestions() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return;
+
+                const response = await axios.get(
+                    'http://localhost:8000/api/chatbot/questions',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                this.availableQuestions = response.data;
+            } catch (error) {
+                console.error('Error loading available questions:', error);
+                // Jika error karena belum tes kepribadian, redirect ke halaman tes
+                if (error.response && error.response.status === 400) {
+                    this.$router.push('/personality-test');
+                }
+            }
+        }
     },
-  mounted() {
-    this.scrollToBottom(); 
-  }
+    mounted() {
+        this.scrollToBottom();
+        this.loadAvailableQuestions();
+    }
 };
 </script>
 
