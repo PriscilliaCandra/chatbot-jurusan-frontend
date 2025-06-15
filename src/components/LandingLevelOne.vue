@@ -1,29 +1,31 @@
 <template>
-  <div class="relative min-h-screen bg-cover bg-center flex items-center justify-center" :style="backgroundStyle">
-    <div
-      class="bg-black bg-opacity-50 px-10 py-10 rounded-3xl text-center mx-auto"
-    >
-      <h1
-        class="text-white font-[CinzelDecorative] leading-relaxed"
-        style="font-size: 3rem; font-weight: 700; margin-bottom: 20px;"
-      >
-        LEVEL 1
-      </h1>
-      <h1
-        class="text-white font-[CinzelDecorative] leading-relaxed"
-        style="font-size: 3rem; font-weight: 700;"
-      >
-        DUNIA MINAT
-      </h1>
-    </div>
+    <div class="relative min-h-screen w-full bg-cover bg-center bg-no-repeat" :style="backgroundStyle">
+        <!-- Overlay gradient for better text readability -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/70 to-black/80"></div>
 
-    <button
-      @click="nextPage"
-      class="absolute bottom-6 sm:bottom-8 md:bottom-12 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white font-[CinzelDecorative] font-bold py-2 sm:py-2.5 md:py-3 px-5 sm:px-6 md:px-8 rounded-full text-base sm:text-lg md:text-xl shadow-md hover:scale-105 transition w-[90%] sm:w-[80%] md:w-auto"
-    >
-      Next
-    </button>
-  </div>
+        <!-- Content container -->
+        <div class="relative min-h-screen w-full flex flex-col items-center justify-between p-4">
+            <!-- Title box -->
+            <div class="w-full max-w-2xl mt-16 bg-black bg-opacity-50 p-8 rounded-2xl shadow-xl">
+                <h1 class="text-white font-cinzel font-bold text-4xl md:text-5xl text-center mb-4">
+                    LEVEL 1
+                </h1>
+                <h2 class="text-white font-cinzel font-bold text-4xl md:text-5xl text-center">
+                    DUNIA MINAT
+                </h2>
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="w-full max-w-md mb-8 flex flex-col items-center gap-4">
+                <button
+                    @click="nextPage"
+                    class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-cinzel font-bold py-4 px-8 rounded-full text-lg shadow-lg transform hover:scale-105 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-opacity-75"
+                >
+                    Lanjutkan
+                </button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -45,9 +47,27 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
 
-.font-\[CinzelDecorative\] {
+.font-cinzel {
     font-family: 'Cinzel Decorative', cursive;
+}
+
+/* Add smooth animation for the button */
+button {
+    background-size: 200% auto;
+    animation: gradient 3s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 </style>

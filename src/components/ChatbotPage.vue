@@ -1,29 +1,29 @@
 <template>
-    <div class="h-screen overflow-hidden flex flex-col bg-gray-50 items-center py-8">
-        <div class="w-full max-w-3xl bg-white shadow-xl rounded-lg flex flex-col h-[80vh]">
+    <div class="h-screen w-full overflow-hidden flex flex-col bg-gray-50">
+        <div class="w-full h-full md:max-w-3xl md:h-[80vh] md:mx-auto md:my-8 bg-white shadow-xl rounded-lg flex flex-col">
             <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 rounded-t-lg flex items-center justify-between shadow-md">
-                <h1 class="text-2xl font-bold font-cinzel">Chatbot</h1>
+                <h1 class="text-xl md:text-2xl font-bold font-cinzel">Chatbot</h1>
                 <button @click="clearChat" class="text-white text-sm opacity-80 hover:opacity-100 transition-opacity">
                     Clear Chat
                 </button>
             </div>
 
             <!-- Daftar Pertanyaan yang Tersedia -->
-            <div v-if="availableQuestions.length > 0" class="p-4 bg-gray-50 border-b">
-                <h3 class="text-sm font-medium text-gray-700 mb-2">Pertanyaan yang Tersedia:</h3>
+            <div v-if="availableQuestions.length > 0" class="p-3 md:p-4 bg-gray-50 border-b">
+                <h3 class="text-xs md:text-sm font-medium text-gray-700 mb-2">Pertanyaan yang Tersedia:</h3>
                 <div class="flex flex-wrap gap-2">
                     <button 
                         v-for="question in availableQuestions" 
                         :key="question.id"
                         @click="useSuggestedQuestion(question.questions)"
-                        class="text-xs bg-white border border-gray-200 hover:border-blue-500 hover:text-blue-600 px-3 py-1.5 rounded-full transition-all shadow-sm"
+                        class="text-xs bg-white border border-gray-200 hover:border-blue-500 hover:text-blue-600 px-2 md:px-3 py-1 md:py-1.5 rounded-full transition-all shadow-sm"
                     >
                         {{ question.questions }}
                     </button>
                 </div>
             </div>
 
-            <div class="p-6 space-y-4 overflow-y-auto" ref="chatMessages" :style="{ maxHeight: '60vh' }">
+            <div class="flex-1 p-4 md:p-6 space-y-4 overflow-y-auto" ref="chatMessages">
                 <div v-for="(msg, index) in chatHistory" :key="index"
                     :class="{
                     'flex justify-end': msg.sender === 'user',
@@ -33,32 +33,32 @@
                             'bg-blue-500 text-white rounded-bl-xl rounded-t-xl': msg.sender === 'user',
                             'bg-gray-200 text-gray-800 rounded-br-xl rounded-t-xl': msg.sender === 'bot'
                         }"
-                        class="max-w-[75%] p-3 shadow-sm text-sm">
+                        class="max-w-[85%] md:max-w-[75%] p-2 md:p-3 shadow-sm text-sm">
                         <p>{{ msg.message }}</p>
                     </div>
                 </div>
                 <div v-if="isTyping" class="flex justify-start">
-                    <div class="bg-gray-200 text-gray-800 rounded-br-xl rounded-t-xl max-w-[75%] p-3 shadow-sm text-sm">
+                    <div class="bg-gray-200 text-gray-800 rounded-br-xl rounded-t-xl max-w-[85%] md:max-w-[75%] p-2 md:p-3 shadow-sm text-sm">
                         <span class="typing-indicator"></span>
                     </div>
                 </div>
             </div>
 
-            <div class="border-t border-gray-200 p-4 bg-gray-100 flex items-center">
+            <div class="border-t border-gray-200 p-3 md:p-4 bg-gray-100 flex items-center">
                 <input
                 v-model="newMessage"
                 @keyup.enter="sendMessage"
                 type="text"
                 placeholder="Tanyakan sesuatu tentang perkuliahan..."
-                class="flex-1 p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
+                class="flex-1 p-2 md:p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm"
                 :disabled="isTyping"
                 />
                 <button
                 @click="sendMessage"
                 :disabled="!newMessage.trim() || isTyping"
-                class="ml-3 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                class="ml-2 md:ml-3 bg-blue-600 hover:bg-blue-700 text-white p-2 md:p-3 rounded-full shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                 </button>

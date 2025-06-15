@@ -1,19 +1,18 @@
 <template>
-  <div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-200 via-indigo-100 to-purple-100 p-2 sm:p-4 text-center font-cinzel">
-        <div class="bg-white rounded-2xl shadow-xl px-3 sm:px-6 md:px-12 py-6 sm:py-8 md:py-12 w-[95%] sm:w-[90%] md:w-full max-w-3xl flex flex-col items-center">
-            <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold mb-4 sm:mb-5 md:mb-6 drop-shadow-md" style="color: #63739A; line-height: 1.4;">
+    <div class="min-h-screen w-full flex flex-col items-center justify-center bg-gradient-to-b from-blue-200 via-indigo-100 to-purple-100 p-4">
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center">
+            <h3 class="text-xl md:text-3xl font-bold mb-8 text-center font-cinzel" style="color: #63739A; line-height: 1.4;">
                 Kamu Harus Menjawab 12 Pertanyaan Untuk Mengetahui Minatmu
             </h3>
 
             <button
-            @click="startQuestion"
-            class="text-white font-bold py-2.5 sm:py-3 md:py-4 px-6 sm:px-8 md:px-10 rounded-full text-lg sm:text-xl md:text-2xl shadow-lg transform hover:scale-105 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-opacity-75 w-[90%] sm:w-[80%] md:w-auto"
-            style="background-color: #A27AED"
+                @click="startQuestion"
+                class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-cinzel font-bold py-4 px-8 rounded-full text-lg shadow-lg transform hover:scale-105 transition duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-purple-400 focus:ring-opacity-75"
             >
                 MULAI
             </button>
         </div>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -33,9 +32,27 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
 
 .font-cinzel {
     font-family: 'Cinzel Decorative', cursive;
+}
+
+/* Add smooth animation for the button */
+button {
+    background-size: 200% auto;
+    animation: gradient 3s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 </style>
