@@ -1,6 +1,6 @@
 <template>
-    <div class="min-h-screen flex flex-col bg-gray-50 items-center py-8">
-        <div class="w-full max-w-3xl bg-white shadow-xl rounded-lg flex flex-col h-[80vh] overflow-hidden">
+    <div class="h-screen overflow-hidden flex flex-col bg-gray-50 items-center py-8">
+        <div class="w-full max-w-3xl bg-white shadow-xl rounded-lg flex flex-col h-[80vh]">
             <div class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-4 rounded-t-lg flex items-center justify-between shadow-md">
                 <h1 class="text-2xl font-bold font-cinzel">Chatbot</h1>
                 <button @click="clearChat" class="text-white text-sm opacity-80 hover:opacity-100 transition-opacity">
@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <div class="flex-1 p-6 overflow-y-auto space-y-4" ref="chatMessages">
+            <div class="p-6 space-y-4 overflow-y-auto" ref="chatMessages" :style="{ maxHeight: '60vh' }">
                 <div v-for="(msg, index) in chatHistory" :key="index"
                     :class="{
                     'flex justify-end': msg.sender === 'user',
@@ -77,7 +77,7 @@ export default {
             chatHistory: [],
             newMessage: '',
             isTyping: false,
-            availableQuestions: [] // Menyimpan daftar pertanyaan yang tersedia
+            availableQuestions: []
         };
     },
     methods: {
@@ -111,6 +111,11 @@ export default {
 
                 const botReply = response.data.reply;
                 this.chatHistory.push({ sender: 'bot', message: botReply });
+
+                // Update suggested questions if available
+                if (response.data.suggested_questions) {
+                    this.availableQuestions = response.data.suggested_questions;
+                }
 
                 // Jika user belum melakukan tes kepribadian
                 if (response.data.needs_personality_test) {
@@ -153,6 +158,29 @@ export default {
             this.chatHistory = [];
         },
 
+        async loadChatHistory() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) return;
+
+                const response = await axios.get(
+                    'http://localhost:8000/api/chatbot/history',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                this.chatHistory = response.data.map(item => ({
+                    sender: item.sender,
+                    message: item.message
+                }));
+            } catch (error) {
+                console.error('Error loading chat history:', error);
+            }
+        },
+
         async loadAvailableQuestions() {
             try {
                 const token = localStorage.getItem('token');
@@ -179,6 +207,7 @@ export default {
     },
     mounted() {
         this.scrollToBottom();
+        this.loadChatHistory();
         this.loadAvailableQuestions();
     }
 };
